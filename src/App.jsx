@@ -1,48 +1,52 @@
 import React, { useState } from 'react';
+import './App.css';
 
 const Calculator = () => {
-  const [displayValue, setDisplayValue] = useState('');
-  const [result, setResult] = useState('');
+  const [input, setInput] = useState('');
 
-  const handleButtonClick = (value) => {
-    if (value === '=') {
-      try {
-        const calculatedResult = eval(displayValue);
-        setResult(calculatedResult);
-        setDisplayValue(calculatedResult);
-      } catch (error) {
-        setResult('Error');
-      }
-    } else if (value === 'C') {
-      setDisplayValue('');
-      setResult('');
-    } else {
-      setDisplayValue((prevValue) => prevValue + value);
+  const handleClick = (value) => {
+    setInput(input + value);
+  };
+
+  const calculateResult = () => {
+    try {
+      setInput(eval(input).toString());
+    } catch (error) {
+      setInput('Error');
     }
+  };
+
+  const clearInput = () => {
+    setInput('');
+  };
+
+  const deleteChar = () => {
+    setInput(input.slice(0, -1));
   };
 
   return (
     <div className="calculator">
-      <input type="text" value={displayValue} readOnly />
+      <input type="text" className="display" value={input} readOnly />
       <div className="buttons">
-        <button onClick={() => handleButtonClick('7')}>7</button>
-        <button onClick={() => handleButtonClick('8')}>8</button>
-        <button onClick={() => handleButtonClick('9')}>9</button>
-        <button onClick={() => handleButtonClick('+')}>+</button>
-        <button onClick={() => handleButtonClick('4')}>4</button>
-        <button onClick={() => handleButtonClick('5')}>5</button>
-        <button onClick={() => handleButtonClick('6')}>6</button>
-        <button onClick={() => handleButtonClick('-')}>-</button>
-        <button onClick={() => handleButtonClick('1')}>1</button>
-        <button onClick={() => handleButtonClick('2')}>2</button>
-        <button onClick={() => handleButtonClick('3')}>3</button>
-        <button onClick={() => handleButtonClick('*')}>*</button>
-        <button onClick={() => handleButtonClick('C')}>C</button>
-        <button onClick={() => handleButtonClick('0')}>0</button>
-        <button onClick={() => handleButtonClick('=')}>=</button>
-        <button onClick={() => handleButtonClick('/')}>/</button>
+        <button onClick={() => handleClick('1')}>1</button>
+        <button onClick={() => handleClick('2')}>2</button>
+        <button onClick={() => handleClick('3')}>3</button>
+        <button onClick={() => handleClick('+')}>+</button>
+        <button onClick={() => handleClick('4')}>4</button>
+        <button onClick={() => handleClick('5')}>5</button>
+        <button onClick={() => handleClick('6')}>6</button>
+        <button onClick={() => handleClick('-')}>-</button>
+        <button onClick={() => handleClick('7')}>7</button>
+        <button onClick={() => handleClick('8')}>8</button>
+        <button onClick={() => handleClick('9')}>9</button>
+        <button onClick={() => handleClick('*')}>*</button>
+        <button onClick={() => handleClick('0')}>0</button>
+        <button onClick={() => handleClick('.')}>.</button>
+        <button onClick={calculateResult}>=</button>
+        <button onClick={() => handleClick('/')}>/</button>
+        <button onClick={clearInput}>C</button>
+        <button onClick={deleteChar}>DEL</button>
       </div>
-      {result && <div className="result">Result: {result}</div>}
     </div>
   );
 };
